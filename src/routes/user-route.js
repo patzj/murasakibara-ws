@@ -15,6 +15,6 @@ export default (app) => {
         .patch(update)
         .delete(remove);
 
-    app.route('/login')
+    app.route('/log-in')
         .post(logIn);
 };

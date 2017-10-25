@@ -3,6 +3,7 @@ import { getAll,
     create,
     update,
     remove } from '../controllers/user-controller';
+import logIn from '../controllers/log-in-controller';
 
 export default (app) => {
     app.route('/users')
@@ -13,4 +14,7 @@ export default (app) => {
         .get(getOne)
         .patch(update)
         .delete(remove);
+
+    app.route('/login')
+        .post(logIn);
 };

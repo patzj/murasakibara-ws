@@ -3,7 +3,7 @@ const cfg = {
         DATABASE: 'mongodb://localhost:27017/mws-dev',
         JWT: {
             SECRET: 'super-secret',
-            EXPIRATION: '1H'
+            EXPIRATION: '1h'
         },
         PORT: 3000
     },

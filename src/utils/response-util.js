@@ -1,4 +1,16 @@
 export default {
+    badRequest: () => {
+        return {
+            status: 400,
+            text: { message: 'Bad request' }
+        };
+    },
+    forbidden: () => {
+        return {
+            status: 403,
+            text: { message: 'Forbidden' }
+        };
+    },
     notFound: () => {
         return {
             status: 404,

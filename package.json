@@ -4,7 +4,9 @@
   "description": "Web service for murasakibara management.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress",
+    "start": "node build/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,12 +19,19 @@
   },
   "homepage": "https://github.com/patzj/murasakibara-ws#readme",
   "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
-    "mongoose": "^4.12.4"
+    "mongoose": "^4.12.4",
+    "webpack": "^3.8.1",
+    "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
     "morgan": "^1.9.0"

@@ -8,7 +8,7 @@ const cfg = {
         PORT: 3000
     },
     prod: {
-        DATABASE: `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds231715.mlab.com:31715/mws`,
+        DATABASE: `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds229435.mlab.com:29435/mws`,
         JWT: {
             SECRET: '0682f007844a0266990df1b2912f95bc',
             EXPIRATION: '1h'

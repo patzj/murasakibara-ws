@@ -1,3 +1,5 @@
+import validator from 'validator';
+
 import User from '../models/user';
 import responseUtil from '../utils/response-util';
 
@@ -47,19 +49,44 @@ export const create = (req, res) => {
         res.status(unprocessable.status)
             .json(unprocessable.text);
     } else {
-        const user = User({
-            username: data.username,
-            password: User.generateHash(data.password),
-            email: data.email
-        });
+        User.findOne({username: data.username}).exec()
+            .then(userByUsername => {
+                if(userByUsername) {
+                    res.status(409)
+                        .json({ message: 'Username already exists'});
+                } else if(!validator.isEmail(data.email)) {
+                    res.status(unprocessable.status)
+                        .json({ message: 'Invalid email' });
+                } else {
+                    User.findOne({email: data.email}).exec()
+                        .then(userByEmail => {
+                            if(userByEmail) {
+                                res.status(409)
+                                    .json({ message: 'Email already in use'});
+                            } else {
+                                const user = User({
+                                    username: data.username,
+                                    password: User.generateHash(data.password),
+                                    email: data.email
+                                });
 
-        user.save()
-            .then(() => {
-                res.status(201)
-                    .json({
-                        username: user.username,
-                        email: user.email
-                    });
+                                user.save()
+                                    .then(() => {
+                                        res.status(201)
+                                            .json({
+                                                username: user.username,
+                                                email: user.email
+                                            });
+                                    })
+                                    .catch(err => {
+                                        res.status(serverErr.status).json(serverErr.text);
+                                    });
+                            }
+                        })
+                        .catch(err => {
+                            res.status(serverErr.status).json(serverErr.text);
+                        });
+                }
             })
             .catch(err => {
                 res.status(serverErr.status).json(serverErr.text);
@@ -72,24 +99,38 @@ export const update = (req, res) => {
     if(typeof(data.password) !== 'undefined') {
         data.password = User.generateHash(data.password);
     }
-    User.findOneAndUpdate(
-        {username: req.params.username},
-        data,
-        {new: true})
-        .exec()
-        .then(user => {
-            if(user) {
-                res.json({
-                    username: user.username,
-                    email: user.email
-                });
-            } else {
-                res.status(notFound.status).json(notFound.text);
-            }
-        })
-        .catch(err => {
-            res.status(serverErr.status).json(serverErr.text);
-        });
+
+    if(typeof(data.email) !== 'undefined') {
+        User.findOne({email: data.email}).exec()
+            .then(doc => {
+                if(doc) {
+                    res.status(409)
+                        .json({ message: 'Email already exists'});
+                } else {
+                    User.findOneAndUpdate(
+                        {username: req.params.username},
+                        data,
+                        {new: true})
+                        .exec()
+                        .then(user => {
+                            if(user) {
+                                res.json({
+                                    username: user.username,
+                                    email: user.email
+                                });
+                            } else {
+                                res.status(notFound.status).json(notFound.text);
+                            }
+                        })
+                        .catch(err => {
+                            res.status(serverErr.status).json(serverErr.text);
+                        });
+                }
+            })
+            .catch(err => {
+                res.status(serverErr.status).json(serverErr.text);
+            });
+    }
 };
 
 export const remove = (req, res) => {

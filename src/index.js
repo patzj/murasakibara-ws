@@ -6,12 +6,15 @@ import morgan from 'morgan';
 import config from './config';
 import userRoute from './routes/user-route';
 import blockedSitesRoute from './routes/blocked-site-route';
+import forgotPwRoute from './routes/forgot-pw-route';
+import authCheck from './middleware/auth-check';
 
 const app = new Express()
 const cfg = config()
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(authCheck);
 
 if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -26,6 +29,7 @@ app.get('/', (req, res) => {
 
 userRoute(app);
 blockedSitesRoute(app);
+forgotPwRoute(app);
 
 app.listen(cfg.PORT, () => {
     console.log(`Listening to port ${cfg.PORT}`);

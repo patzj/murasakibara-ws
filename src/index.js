@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(authCheck);
 
 if(process.env.NODE_ENV === 'development') {
-    import morgan from 'morgan';
+    const morgan = require('morgan');
     app.use(morgan('dev'));
 }
 

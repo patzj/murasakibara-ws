@@ -31,6 +31,7 @@
     "jsonwebtoken": "^8.1.0",
     "mailgun-js": "^0.13.1",
     "mongoose": "^4.12.4",
+    "randomstring": "^1.1.5",
     "validator": "^9.1.1",
     "webpack": "^3.8.1",
     "webpack-node-externals": "^1.6.0"

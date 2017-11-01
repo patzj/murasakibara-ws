@@ -10,7 +10,8 @@ const forbidden = responseUtil.forbidden();
 export default (req, res, next) => {
     if(req.url.indexOf('log-in') > -1 ||
         (req.url.indexOf('blocked-sites') > -1 && req.method === 'GET') ||
-        (req.url.indexOf('users') > -1 && req.method == 'POST')
+        (req.url.indexOf('users') > -1 && req.method == 'POST') ||
+        (req.url.indexOf('forgot-password') > -1)
     ) {
         next();
     } else {

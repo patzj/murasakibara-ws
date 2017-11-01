@@ -1,7 +1,6 @@
 import Express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import morgan from 'morgan';
 
 import config from './config';
 import userRoute from './routes/user-route';
@@ -17,6 +16,7 @@ app.use(bodyParser.json());
 app.use(authCheck);
 
 if(process.env.NODE_ENV === 'development') {
+    import morgan from 'morgan';
     app.use(morgan('dev'));
 }
 

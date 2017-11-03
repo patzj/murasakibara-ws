@@ -1,6 +1,7 @@
 import Express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 import config from './config';
 import userRoute from './routes/user-route';
@@ -14,6 +15,7 @@ const cfg = config()
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(authCheck);
+app.use(cors());
 
 if(process.env.NODE_ENV === 'development') {
     const morgan = require('morgan');
